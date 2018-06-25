@@ -5,9 +5,9 @@ IFS=$'\t\n'
 
 playlist=$1
 
-srcdir1='/media/gui0m/ZALG0006/Musique/Music/'
-srcdir1_regex='file\:///media/gui0m/ZALG0006/Musique/Music/'
-destdir='/media/gui0m/WALKMAN/MUSIC/'
+srcdir1="/media/$USER/ZALG0006/Musique/Music/"
+srcdir1_regex="file\:///media/$USER/ZALG0006/Musique/Music/"
+destdir="/media/$USER/WALKMAN/MUSIC/"
 
 set +e
 rsync -PRaOvh \
