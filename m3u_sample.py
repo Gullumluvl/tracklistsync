@@ -9,8 +9,10 @@ import argparse
 from playlisttools import iter_playlist, fixedsize_sample, write_paths, humanize_number
 
 
-def main(infile, outfile, maxsize='8GiB', epsilon='3MiB'):
+def main(infile, outfile, exclude=None, maxsize='8GiB', epsilon='3MiB'):
     urlset = set(iter_playlist(infile))
+    if exclude:
+        urlset -= set(iter_playlist(exclude))
     size, sample = fixedsize_sample(urlset, maxsize, epsilon)
     print("# Playlist size " + humanize_number(size))
     write_paths(sample, outfile)
@@ -23,6 +25,8 @@ if __name__ == '__main__':
                         default=stdin)
     parser.add_argument('outfile', nargs='?', type=argparse.FileType('w'),
                         default=stdout)
+    parser.add_argument('-x', '--exclude', 
+                        help='m3u playlist with tracks to exclude')
     parser.add_argument('-s', '--maxsize', default='8GiB',
                         help='maximum cumulated file size of the playlist [%(default)s]')
     parser.add_argument('-e', '--epsilon', default='300KiB',
