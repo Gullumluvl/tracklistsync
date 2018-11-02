@@ -120,11 +120,17 @@ def fixedsize_sample(urlset, maxsize="8GiB", epsilon="3MiB"):
         
         if space <= 0:
             # Files must be removed from the playlist
-            removed_files = sample(curr_set, delta_n_files)
+            try:
+                removed_files = sample(curr_set, delta_n_files)
+            except ValueError:
+                print("space: %s, delta_n_files: %d" % (space, delta_n_files), file=stderr)
             delta_size = - sum(op.getsize(f) for f in removed_files)
             curr_set.difference_update(removed_files)
         else:
-            added_files = sample(urlset - curr_set, delta_n_files)
+            try:
+                added_files = sample(urlset - curr_set, delta_n_files)
+            except ValueError:
+                print("space: %s, delta_n_files: %d" % (space, delta_n_files), file=stderr)
             delta_size = sum(op.getsize(f) for f in added_files)
             curr_set.update(added_files)
 

@@ -13,6 +13,7 @@ set +e
 rsync -PRaOvh \
     --ignore-existing \
     --no-implied-dirs \
+    --delete-before \
     --files-from=<(urldecode.py $playlist | sed -n 's|^'"$srcdir1_regex"'||p') \
     "$srcdir1" "$destdir"
 returned=$?
